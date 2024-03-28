@@ -8,7 +8,7 @@ textarea {
   border: none;
   resize: none;
   color: #000000;
-  border-left: 1px solid black;
+  border-right: 1px solid black;
   padding: 10px;
 }
 
@@ -24,7 +24,7 @@ textarea {
   border-top: 1px solid white;
 }
 
-.hour {
+.hour-label {
   background-color: #ffffff;
   color: #000000;
   border-top: 1px dashed #000000;

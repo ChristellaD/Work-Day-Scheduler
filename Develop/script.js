@@ -1,23 +1,65 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
+// ensures that the DOM content is fully loaded before initializing the script
+document.addEventListener("DOMContentLoaded", (event) => {
+  console.log("DOM fully loaded and parsed");
+
+const timeblockContainer = document.getElementById('timeblock-container');
+// displays current date in the header
+const currentDate = dayjs().format('MMMM DD, YYYY');
+document.getElementById('currentDay').textContent = currentDate;
+// gets current hour to be compared against timeblock hours
+const currentHour = dayjs().hour();
+console.log(currentHour);
+console.log(currentDate);
+
 $(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
-});
+// for loop creates timeblock for each hour from 9AM to 5PM (typical work day)
+for (hour = 9; hour < 18; hour++) {
+  const timeblock = document.createElement('div');
+  const eventInput = document.createElement('textarea');
+  const saveButton = document.createElement('button');
+  const hourLabel = document.createElement('div');
+
+  timeblockContainer.appendChild(timeblock);
+  timeblock.classList.add('time-block','row');
+  timeblock.setAttribute('id',`hour-${hour}`);
+
+  if (hour < currentHour) {
+    timeblock.classList.add('past');
+    } else if (hour === currentHour) {
+      timeblock.classList.add('present');
+        } else {
+        timeblock.classList.add('future');
+        };
+
+
+eventInput.classList.add('description', 'col-8', 'col-md-10');
+eventInput.setAttribute('rows','3');
+
+// ternary operator used to modify hour label to correctly display AM or PM for respective timeblocks
+hourLabel.classList.add('col-2', 'col-md-1', 'hour-label', 'text-center', 'py-3');
+hourLabel.textContent = hour === 12 ? '12 PM' : hour > 12 ? (hour - 12) + ' PM': `${hour} AM`;
+
+saveButton.classList.add('btn', 'saveBtn', 'col-2', 'col-md-1');
+saveButton.setAttribute('aria-label','save');
+saveButton.innerHTML = '<i class="fas fa-save" aria-hidden="true"></i>';
+
+// event listener saves user input and respective hour id to local storage
+saveButton.addEventListener('click', function () { 
+  const eventText = eventInput.value;
+  const hourId = this.parentElement.id;
+  
+  localStorage.setItem(hourId, eventText);
+  console.log(eventText + " @ " + hourId + " has been saved.");
+  });
+    
+timeblock.appendChild(eventInput);
+timeblock.appendChild(hourLabel);
+timeblock.appendChild(saveButton);
+// checks for event text and hour id for each time block. if found, data is returned and appended to page.
+const savedData = localStorage.getItem(`hour-${hour}`);
+if (savedData !== null) {
+  console.log('Data found in local storage:', savedData);
+  eventInput.value = savedData;}
+  else {
+    console.log('No data found in local storage for element with ID: ',`hour-${hour}`);
+}}});});

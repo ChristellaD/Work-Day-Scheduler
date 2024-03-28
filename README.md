@@ -9,11 +9,11 @@ The starter code can be found here: [Work Day Scheduler Starter Code](https://gi
 This gif provided with the starter code demonstrates the page's functionality. By clicking into a timeblock, the user will be able to add/edit the event text to their liking. After doing so, the light blue save button will save their text to their device. Timeblocks colored in grey represent the past. Timeblocks colored in red represent the present. Timeblocks colored in green represent the future.
 
 
-![Starter Code Planner Demo GIF] (/Assets/05-third-party-apis-homework-demo.gif)
+![Starter Code Planner Demo GIF](Assets/05-third-party-apis-homework-demo.gif)
 
 
 Pictured below is a screenshot of the application.
-![Scheduler Screenshot] (Assets/scheduler-screenshot.png)
+![Scheduler Screenshot](Assets/scheduler-screenshot.png)
 
 ## License
 The MIT License (MIT)
